@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex,follow" />
+  <title>OMJE · Lector de publicaciones</title>
+  <link rel="stylesheet" href="./vendor/pdf_viewer.css" />
+  <link rel="stylesheet" href="./reader.css" />
+</head>
+<body>
+  <nav class="toolbar" aria-label="Controles del lector">
+    <div class="toolbar__group">
+      <button id="previous" type="button" disabled>←</button>
+      <form id="page-form"><label for="page" id="page-label">Página</label><input id="page" type="number" min="1" value="1" inputmode="numeric" disabled /><span id="total">/ —</span></form>
+      <button id="next" type="button" disabled>→</button>
+    </div>
+    <div class="toolbar__group">
+      <button id="zoom-out" type="button" disabled>−</button>
+      <button id="zoom-reset" type="button" disabled>100%</button>
+      <button id="zoom-in" type="button" disabled>+</button>
+      <select id="layout" disabled><option value="auto">Auto</option><option value="1">1 página</option><option value="2">2 páginas</option></select>
+    </div>
+    <a id="download" class="download" download>↓ <span>Descargar PDF</span></a>
+  </nav>
+  <main id="stage" aria-label="Documento">
+    <div class="reader-note"><span id="language">Documento original en portugués</span><span id="hint">← → para pasar páginas</span></div>
+    <div id="notice" role="status" aria-live="polite"><span class="spinner" aria-hidden="true"></span><span id="notice-text">Cargando publicación…</span><a id="fallback" target="_blank" rel="noopener" hidden>Abrir PDF</a></div>
+    <div id="spread" aria-busy="true"></div>
+    <p id="page-status" class="sr-only" role="status" aria-live="polite"></p>
+  </main>
+  <footer><span id="footer-label">Lectura en línea · OMJE</span><progress id="reading-progress" max="1" value="0" aria-label="Progreso de lectura"></progress></footer>
+  <script type="module" src="./reader.js"></script>
+</body>
+</html>
