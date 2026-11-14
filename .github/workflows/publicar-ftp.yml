@@ -1,0 +1,38 @@
+# Publica el sitio estático OMJE en el hosting de GoDaddy (cPanel) por FTP.
+# Requiere secretos del repositorio: FTP_SERVER, FTP_USERNAME, FTP_PASSWORD
+# y, opcionalmente, FTP_SERVER_DIR (carpeta pública del dominio, p. ej. "./" si la
+# cuenta FTP ya está limitada a la carpeta de observajuvex.org).
+# Solo se ejecuta manualmente (Actions → Publicar en GoDaddy → Run workflow).
+name: Publicar en GoDaddy (FTP)
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Simular sin subir archivos"
+        type: boolean
+        default: true
+
+concurrency:
+  group: publicar-ftp
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Subir por FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ secrets.FTP_SERVER_DIR || './' }}
+          protocol: ftps
+          dry-run: ${{ inputs.dry_run }}
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            .nojekyll
